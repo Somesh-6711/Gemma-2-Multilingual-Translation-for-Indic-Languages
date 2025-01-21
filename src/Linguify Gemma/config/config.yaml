@@ -1,0 +1,15 @@
+dataset:
+  raw_dir: "data/raw/"
+  processed_dir: "data/processed/"
+  batch_size: 16
+  max_seq_length: 128
+
+model:
+  pretrained_model: "gemma2"
+  output_dir: "models/fine_tuned/"
+  num_epochs: 5
+  learning_rate: 3e-5
+
+logging:
+  level: "INFO"
+  format: "[%(asctime)s]: %(message)s"

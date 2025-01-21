@@ -1,10 +1,9 @@
 transformers
+torch
 pandas
 numpy
 scikit-learn
-torch
-nltk
-pyyaml
 flask
 flask-restful
 flask-cors
+pyyaml
