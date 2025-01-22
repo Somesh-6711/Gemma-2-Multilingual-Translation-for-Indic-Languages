@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
+# Initialize the Flask app
 app = Flask(__name__)
 
 # Load the fine-tuned model and tokenizer
@@ -11,22 +12,19 @@ model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_DIR)
 @app.route("/translate", methods=["POST"])
 def translate():
     """
-    Real-time translation API endpoint.
-
-    Expects JSON input:
-        - text: Text to translate
-        - source_lang (optional): Source language (e.g., 'hi', 'gu', 'sa').
-
-    Returns:
-        - translated_text: Translated sentence.
+    Translate text from English to Hindi, Gujarati, or Sanskrit.
+    Input:
+      - text: Source text to translate.
+      - source_lang: Optional source language (e.g., 'en').
+    Output:
+      - Translated text.
     """
     data = request.get_json()
     source_text = data.get("text", "")
-
     if not source_text:
         return jsonify({"error": "No text provided for translation"}), 400
 
-    # Translate text
+    # Tokenize and translate
     inputs = tokenizer(source_text, return_tensors="pt", truncation=True, padding=True)
     outputs = model.generate(inputs["input_ids"], max_length=128, num_beams=4, early_stopping=True)
     translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
